@@ -46,14 +46,10 @@ def _get_data(path=".", split="train"):
     data = pd.read_csv(os.path.join(path, "data", split + ".csv"))
     # features
     X = data.drop("Class", axis=1).to_numpy()
-
     # label
-    categories = ['SEKER', 'BARBUNYA', 'BOMBAY', 'CALI', 'HOROZ', 'SIRA', 'DERMASON']
-    oh_encoder = OneHotEncoder(sparse=False, categories=[categories]) 
-    y = oh_encoder.fit_transform(data[['Class']])
+    y = data['Class'].apply(lambda x: cat_to_int[x]).to_numpy()
 
     return X, y
-
 
 def get_train_data(path="."):
     return _get_data(path, "train")
